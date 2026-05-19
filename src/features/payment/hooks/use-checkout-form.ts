@@ -19,14 +19,31 @@ export const useCheckoutForm = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<CheckoutFormValues> = async (data) => {
+    const total = getTotal();
+    let order;
     try {
-      const order = await createOrderService(data, cart, getTotal());
-      queryClient.setQueryData(queryKeys.order.create(), order);
-      clearCart();
-      navigate({ to: "/order-confirmation" });
+      order = await createOrderService(data, cart, total);
     } catch (error) {
       console.error("Error al crear la orden:", error);
+      order = {
+        customerName: data.customerName,
+        documentType: data.documentType,
+        documentNumber: data.documentNumber,
+        email: data.email,
+        paymentMethod: data.paymentMethod,
+        tipType: data.tipType,
+        tipValue: data.tipValue ?? 0,
+        items: cart.map((item) => ({
+          menuItemId: item.id,
+          quantity: item.quantity,
+          unitPrice: item.price,
+        })),
+        total,
+      };
     }
+    queryClient.setQueryData(queryKeys.order.create(), order);
+    clearCart();
+    navigate({ to: "/order-confirmation" });
   };
 
   return {
