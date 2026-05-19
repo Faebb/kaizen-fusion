@@ -7,6 +7,10 @@ export const queryKeys = {
     menu: {
         all: ['menu'] as const,
         list: () => [...queryKeys.menu.all, 'list'] as const
+    },
+    order: {
+        all: ['order'] as const,
+        create: () => [...queryKeys.order.all, 'create'] as const
     }
 }
 

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { API_KAIZEN } from "@/services"
+import { API_KAIZEN } from "./config"
 
 
 export const httpClient = axios.create({

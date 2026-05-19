@@ -1,5 +1,6 @@
 export * from './reservation-route'
 export * from './confirmation-route'
+export * from './order-confirmation-route'
 export * from './menu-route'
 export * from './menu-detail-item-route'
 export * from './cart-route'
