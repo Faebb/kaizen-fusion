@@ -1,6 +1,7 @@
 import { useCartStore, CartItemCard } from "@/features"
 import { Button } from "@/shared"
 import { useNavigate } from "@tanstack/react-router"
+import { useCurrentSlug } from "@/lib"
 
 export function CartView() {
 
@@ -10,13 +11,14 @@ export function CartView() {
     )
     const clearCart = useCartStore((state) => state.clearCart)
     const navigate = useNavigate()
+    const slug = useCurrentSlug()
 
     if (!cart.length) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center text-white gap-4">
                 <p className="text-xl">Tu carrito está vacío 🥢</p>
 
-                <Button onClick={() => navigate({ to: "/menu" })}>
+                <Button onClick={() => navigate({ to: "/$slug/menu", params: { slug } })}>
                     Ir al menú
                 </Button>
             </div>
@@ -29,9 +31,12 @@ export function CartView() {
             <div className="w-full max-w-3xl flex flex-col gap-6">
 
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold tracking-tight">
-                        Tu pedido
-                    </h1>
+                    <button
+                        onClick={() => navigate({ to: "/$slug/menu", params: { slug } })}
+                        className="text-sm text-slate-400 hover:text-white transition"
+                    >
+                        ← Volver al menú
+                    </button>
 
                     <button
                         onClick={clearCart}
@@ -40,6 +45,8 @@ export function CartView() {
                         Vaciar
                     </button>
                 </div>
+
+                <h1 className="text-2xl font-bold tracking-tight">Tu pedido</h1>
 
                 <div className="flex flex-col gap-4">
                     {cart.map((item) => (
@@ -62,7 +69,7 @@ export function CartView() {
                     </div>
 
                     <Button
-                        onClick={() => navigate({ to: "/checkout" })}
+                        onClick={() => navigate({ to: "/$slug/checkout", params: { slug } })}
                         className="w-full py-4 text-lg font-semibold rounded-xl
           shadow-[0_10px_30px_rgba(193,11,45,0.5)]
           hover:scale-[1.02] active:scale-[0.98] transition-all"
