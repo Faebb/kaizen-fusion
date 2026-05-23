@@ -1,3 +1,5 @@
+export * from './index-route'
+export * from './slug-route'
 export * from './reservation-route'
 export * from './confirmation-route'
 export * from './order-confirmation-route'

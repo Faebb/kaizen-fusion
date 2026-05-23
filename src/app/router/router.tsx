@@ -2,6 +2,8 @@ import { createRootRouteWithContext, createRouter, notFound } from "@tanstack/re
 import { queryClient, MainLayout } from "@/shared"
 import type { QueryClient } from "@tanstack/react-query"
 import {
+  IndexRoute,
+  SlugRoute,
   ReservationRoute,
   ConfirmationRoute,
   OrderConfirmationRoute,
@@ -29,13 +31,16 @@ export const rootRoute = createRootRouteWithContext<RouterContext>()({
 })
 
 const routeTree = rootRoute.addChildren([
-  ReservationRoute,
-  ConfirmationRoute,
-  OrderConfirmationRoute,
-  MenuRoute,
-  MenuDetailRoute,
-  CartRoute,
-  CheckoutRoute,
+  IndexRoute,
+  SlugRoute.addChildren([
+    ReservationRoute,
+    ConfirmationRoute,
+    OrderConfirmationRoute,
+    MenuRoute,
+    MenuDetailRoute,
+    CartRoute,
+    CheckoutRoute,
+  ]),
   LoginRoute,
   RegisterRoute,
   DashboardRoute.addChildren([
