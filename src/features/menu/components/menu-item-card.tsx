@@ -1,5 +1,5 @@
 import { useCartStore, type MenuItemType } from "@/features";
-import { showSuccessToast } from "@/lib";
+import { showSuccessToast, useCurrentSlug } from "@/lib";
 import { Button, Image } from "@/shared";
 import { useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
@@ -10,6 +10,7 @@ interface MenuItemCardProps {
 
 export default function MenuItemCard({ item }: MenuItemCardProps) {
     const navigate = useNavigate()
+    const slug = useCurrentSlug()
     const addToCart = useCartStore((state) => state.addToCart)
     const handleAdd = (e: React.MouseEvent) => {
         e.stopPropagation()
@@ -19,7 +20,7 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
     return (
 
         <div
-            onClick={() => navigate({ to: `/menu/${item.id}` })}
+            onClick={() => navigate({ to: "/$slug/menu/$id", params: { slug, id: item.id } })}
             className="group cursor-pointer rounded-2xl overflow-hidden 
   border border-white/10 
   bg-linear-to-b from-[#1a0d10] to-[#12080a]
