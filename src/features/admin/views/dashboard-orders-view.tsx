@@ -1,5 +1,7 @@
 import { useAdminOrders, useUpdateOrderStatus } from "../admin-query";
 import { ORDER_STATUSES, ORDER_STATUS_LABELS } from "../types";
+import { useOrderSocket } from "@/services/socket";
+import { useAuthStore } from "@/features/auth/use-auth-store";
 
 const statusColor: Record<string, string> = {
   PENDING: "text-yellow-300 border-yellow-300/30 bg-yellow-300/10",
@@ -12,14 +14,22 @@ const statusColor: Record<string, string> = {
 export const DashboardOrdersView = () => {
   const orders = useAdminOrders();
   const update = useUpdateOrderStatus();
+  const tenantId = useAuthStore((s) => s.tenant?.id);
+  const { connected } = useOrderSocket(tenantId);
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase opacity-80">
-          Operaciones
-        </span>
-        <h1 className="text-3xl md:text-4xl font-bold text-white mt-2">Órdenes</h1>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase opacity-80">
+            Operaciones
+          </span>
+          <h1 className="text-3xl md:text-4xl font-bold text-white mt-2">Órdenes</h1>
+        </div>
+        <div className="flex items-center gap-2 mt-2">
+          <span className={`w-2 h-2 rounded-full ${connected ? "bg-green-400" : "bg-red-500"}`} />
+          <span className="text-xs text-slate-400">{connected ? "En vivo" : "Desconectado"}</span>
+        </div>
       </div>
 
       {orders.isLoading && <p className="text-slate-400">Cargando…</p>}
