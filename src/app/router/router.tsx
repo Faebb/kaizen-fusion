@@ -11,6 +11,12 @@ import {
   CheckoutRoute,
   LoginRoute,
   RegisterRoute,
+  DashboardRoute,
+  DashboardOverviewRoute,
+  DashboardMenuRoute,
+  DashboardOrdersRoute,
+  DashboardReservationsRoute,
+  DashboardTablesRoute,
 } from "@/app"
 
 export type RouterContext = {
@@ -32,6 +38,13 @@ const routeTree = rootRoute.addChildren([
   CheckoutRoute,
   LoginRoute,
   RegisterRoute,
+  DashboardRoute.addChildren([
+    DashboardOverviewRoute,
+    DashboardMenuRoute,
+    DashboardOrdersRoute,
+    DashboardReservationsRoute,
+    DashboardTablesRoute,
+  ]),
 ])
 
 export const router = createRouter({
