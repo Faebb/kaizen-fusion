@@ -1,40 +1,53 @@
 import { httpClient } from "@/services";
-import type { CheckoutFormValues } from "@/features";
-import type { CartItemInterface } from "@/features";
+
+export interface CreateOrderItemDTO {
+  menuItemId: string;
+  quantity: number;
+}
 
 export interface CreateOrderDTO {
+  reservationId?: string;
   customerName: string;
   documentType: string;
   documentNumber: string;
   email: string;
-  paymentMethod: string;
-  tipType: string;
+  paymentMethod: "card" | "cash";
+  tipType: "fixed" | "custom";
   tipValue: number;
-  items: Array<{ menuItemId: string; quantity: number; unitPrice: number }>;
+  items: CreateOrderItemDTO[];
+}
+
+export interface OrderResponseType {
+  id: string;
+  customerName: string;
+  email: string;
+  paymentMethod: string;
+  subtotal: number;
+  tipValue: number;
   total: number;
+  status: string;
+  items: {
+    menuItemId: string;
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    subtotal: number;
+  }[];
+  createdAt: string;
 }
 
 export const createOrderService = async (
-  form: CheckoutFormValues,
-  cart: CartItemInterface[],
-  total: number
-) => {
-  const body: CreateOrderDTO = {
-    customerName: form.customerName,
-    documentType: form.documentType,
-    documentNumber: form.documentNumber,
-    email: form.email,
-    paymentMethod: form.paymentMethod,
-    tipType: form.tipType,
-    tipValue: form.tipValue,
-    items: cart.map((item) => ({
-      menuItemId: item.id,
-      quantity: item.quantity,
-      unitPrice: item.price,
-    })),
-    total,
-  };
+  slug: string,
+  body: CreateOrderDTO,
+): Promise<OrderResponseType> => {
+  const { data } = await httpClient.post(`/api/public/${slug}/orders`, body);
+  return data.data;
+};
 
-  const { data } = await httpClient.post("/api/orders", body);
+export const getOrderService = async (
+  slug: string,
+  id: string,
+): Promise<OrderResponseType> => {
+  const { data } = await httpClient.get(`/api/public/${slug}/orders/${id}`);
   return data.data;
 };

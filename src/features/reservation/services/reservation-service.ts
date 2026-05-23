@@ -1,9 +1,10 @@
-import type { ReservationRequestType, ReservationResponseType } from "@/features";
 import { httpClient } from "@/services";
+import type { ReservationRequestType, ReservationResponseType } from "@/features";
 
 export const assignTableService = async (
-  data: ReservationRequestType
+  slug: string,
+  body: ReservationRequestType,
 ): Promise<ReservationResponseType> => {
-  const response = await httpClient.post("/api/reservations", data);
-  return response.data.data;
+  const { data } = await httpClient.post(`/api/public/${slug}/reservations`, body);
+  return data.data;
 };

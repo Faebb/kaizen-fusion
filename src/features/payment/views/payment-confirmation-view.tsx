@@ -1,15 +1,14 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { CheckCircle, ShoppingBag, CreditCard, Banknote } from "lucide-react";
-import { queryKeys } from "@/shared";
-import { Button } from "@/shared";
-import type { CreateOrderDTO } from "@/features/payment/services/order-service";
+import { Button, queryKeys } from "@/shared";
+import type { OrderResponseType } from "@/features";
 
 export const PaymentConfirmationView = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-    const order = queryClient.getQueryData<CreateOrderDTO & { id?: string }>(
+    const order = queryClient.getQueryData<OrderResponseType>(
         queryKeys.order.create()
     );
 
@@ -65,12 +64,16 @@ export const PaymentConfirmationView = () => {
                     </span>
                 </p>
                 <p className="text-slate-300 text-sm flex justify-between">
+                    <span>Subtotal</span>
+                    <span className="text-white font-medium">${order.subtotal.toLocaleString("es-CO")}</span>
+                </p>
+                <p className="text-slate-300 text-sm flex justify-between">
                     <span>Propina</span>
-                    <span className="text-white font-medium">${order.tipValue.toFixed(2)}</span>
+                    <span className="text-white font-medium">${order.tipValue.toLocaleString("es-CO")}</span>
                 </p>
                 <div className="border-t border-white/10 pt-3 flex justify-between">
                     <span className="text-white font-bold">Total</span>
-                    <span className="text-gold-accent font-bold text-lg">${order.total.toFixed(2)}</span>
+                    <span className="text-gold-accent font-bold text-lg">${order.total.toLocaleString("es-CO")}</span>
                 </div>
             </div>
 

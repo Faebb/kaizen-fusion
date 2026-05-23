@@ -3,6 +3,7 @@ export interface ReservationRequestType {
 }
 
 export interface ReservationResponseType {
+  reservationId: string;
   tableId: string;
   waitTime: number;
   tableNumber: number;
