@@ -58,7 +58,7 @@ export const useCheckoutForm = () => {
       queryClient.setQueryData(queryKeys.order.create(), order);
     }
     clearCart();
-    navigate({ to: "/order-confirmation" });
+    navigate({ to: "/$slug/order-confirmation/$orderId", params: { slug, orderId: order?.id ?? "" } });
   };
 
   return {

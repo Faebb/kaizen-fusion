@@ -1,22 +1,34 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { CheckCircle, ShoppingBag, CreditCard, Banknote } from "lucide-react";
-import { Button, queryKeys } from "@/shared";
-import type { OrderResponseType } from "@/features";
+import { Button } from "@/shared";
+import { useCurrentSlug } from "@/lib";
+import { getOrderService } from "@/features";
 
 export const PaymentConfirmationView = () => {
-    const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const slug = useCurrentSlug();
+    const { orderId } = useParams({ from: "/$slug/order-confirmation/$orderId" });
 
-    const order = queryClient.getQueryData<OrderResponseType>(
-        queryKeys.order.create()
-    );
+    const { data: order, isLoading } = useQuery({
+        queryKey: ["order", slug, orderId],
+        queryFn: () => getOrderService(slug, orderId),
+        enabled: !!orderId,
+    });
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <p className="text-slate-400">Cargando confirmación...</p>
+            </div>
+        );
+    }
 
     if (!order) {
         return (
             <div className="flex flex-col items-center justify-center gap-6 px-6 text-center">
                 <p className="text-slate-400">No hay información de pago.</p>
-                <Button variant="primary" onClick={() => navigate({ to: "/menu" })}>
+                <Button variant="primary" onClick={() => navigate({ to: "/$slug/menu", params: { slug } })}>
                     IR AL MENÚ
                 </Button>
             </div>
@@ -84,7 +96,7 @@ export const PaymentConfirmationView = () => {
                 </div>
                 <Button
                     variant="primary"
-                    onClick={() => navigate({ to: "/menu" })}
+                    onClick={() => navigate({ to: "/$slug/menu", params: { slug } })}
                     className="w-full text-lg py-4 rounded-xl shadow-[0_8px_30px_rgba(193,11,45,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                     VER MENÚ
