@@ -55,5 +55,19 @@ export interface AdminReservation {
 export const ORDER_STATUSES = ['PENDING', 'CONFIRMED', 'PREPARING', 'DELIVERED', 'CANCELLED'] as const;
 export type OrderStatus = typeof ORDER_STATUSES[number];
 
+export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+  PENDING: 'En cola',
+  CONFIRMED: 'Confirmado',
+  PREPARING: 'Preparando',
+  DELIVERED: 'Entregado',
+  CANCELLED: 'Cancelado',
+};
+
 export const TABLE_TYPES = ['LOW', 'HIGH', 'VIP'] as const;
 export type TableType = typeof TABLE_TYPES[number];
+
+export const TABLE_TYPE_LABELS: Record<TableType, string> = {
+  LOW: 'Baja',
+  HIGH: 'Alta',
+  VIP: 'VIP',
+};

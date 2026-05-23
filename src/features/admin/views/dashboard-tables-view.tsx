@@ -7,7 +7,7 @@ import {
   useDeleteTable,
   useUpdateTable,
 } from "../admin-query";
-import { TABLE_TYPES, type TableType } from "../types";
+import { TABLE_TYPES, TABLE_TYPE_LABELS, type TableType } from "../types";
 
 const TableForm = ({ onClose }: { onClose: () => void }) => {
   const [form, setForm] = useState<{ tableNumber: number; tableType: TableType; capacity: number }>({
@@ -41,7 +41,7 @@ const TableForm = ({ onClose }: { onClose: () => void }) => {
           >
             {TABLE_TYPES.map((t) => (
               <option key={t} value={t}>
-                {t}
+                {TABLE_TYPE_LABELS[t]}
               </option>
             ))}
           </select>
@@ -103,7 +103,7 @@ export const DashboardTablesView = () => {
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-2xl font-bold text-gold-accent">{t.tableType}</p>
+            <p className="text-2xl font-bold text-gold-accent">{TABLE_TYPE_LABELS[t.tableType]}</p>
             <p className="text-xs text-slate-400">Capacidad: {t.capacity}</p>
             <button
               onClick={() =>

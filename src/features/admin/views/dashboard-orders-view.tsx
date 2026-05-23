@@ -1,5 +1,5 @@
 import { useAdminOrders, useUpdateOrderStatus } from "../admin-query";
-import { ORDER_STATUSES } from "../types";
+import { ORDER_STATUSES, ORDER_STATUS_LABELS } from "../types";
 
 const statusColor: Record<string, string> = {
   PENDING: "text-yellow-300 border-yellow-300/30 bg-yellow-300/10",
@@ -43,7 +43,7 @@ export const DashboardOrdersView = () => {
                 <span
                   className={`text-[10px] tracking-widest uppercase px-2.5 py-1 rounded-full border ${statusColor[order.status] ?? "border-white/10 text-slate-300"}`}
                 >
-                  {order.status}
+                  {ORDER_STATUS_LABELS[order.status as keyof typeof ORDER_STATUS_LABELS] ?? order.status}
                 </span>
                 <span className="text-gold-accent font-bold">
                   ${order.total.toLocaleString("es-CO")}
@@ -67,7 +67,7 @@ export const DashboardOrdersView = () => {
                   disabled={update.isPending}
                   className="text-xs px-3 py-1.5 rounded-full border border-white/15 text-slate-300 hover:bg-white/5 hover:text-white transition disabled:opacity-50"
                 >
-                  → {s}
+                  → {ORDER_STATUS_LABELS[s]}
                 </button>
               ))}
             </div>

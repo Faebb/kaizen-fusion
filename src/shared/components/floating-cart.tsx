@@ -15,7 +15,7 @@ export default function FloatingCart({ total = 0, onClick }: FloatingCartProps) 
             >
                 <div className="flex flex-col items-start mr-2">
                     <span className="text-[10px] font-medium uppercase opacity-90">
-                        Total Order
+                        Total pedido
                     </span>
                     <span className="font-display text-lg font-bold">
                         ${total.toLocaleString("es-CO")}
