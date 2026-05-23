@@ -110,3 +110,7 @@ export const listReservationsService = async (): Promise<AdminReservation[]> => 
   const { data } = await httpClient.get("/api/admin/reservations");
   return data.data;
 };
+
+export const deleteReservationService = async (id: string): Promise<void> => {
+  await httpClient.delete(`/api/admin/reservations/${id}`);
+};

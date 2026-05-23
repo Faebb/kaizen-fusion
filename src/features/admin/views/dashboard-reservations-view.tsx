@@ -1,7 +1,9 @@
-import { useAdminReservations } from "../admin-query";
+import { Trash2 } from "lucide-react";
+import { useAdminReservations, useDeleteReservation } from "../admin-query";
 
 export const DashboardReservationsView = () => {
   const reservations = useAdminReservations();
+  const deleteReservation = useDeleteReservation();
 
   return (
     <div className="flex flex-col gap-6">
@@ -32,16 +34,26 @@ export const DashboardReservationsView = () => {
               </span>
             </div>
 
-            <div className="flex flex-col items-end">
-              <span className="text-[10px] tracking-widest uppercase text-slate-500">
-                Mesa
-              </span>
-              <span className="text-2xl font-bold text-gold-accent">
-                {r.table?.tableNumber}
-              </span>
-              <span className="text-xs text-slate-400">
-                {r.table?.tableType} · cap. {r.table?.capacity}
-              </span>
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col items-end">
+                <span className="text-[10px] tracking-widest uppercase text-slate-500">
+                  Mesa
+                </span>
+                <span className="text-2xl font-bold text-gold-accent">
+                  {r.table?.tableNumber}
+                </span>
+                <span className="text-xs text-slate-400">
+                  {r.table?.tableType} · cap. {r.table?.capacity}
+                </span>
+              </div>
+              <button
+                onClick={() => deleteReservation.mutate(r.id)}
+                disabled={deleteReservation.isPending}
+                className="text-red-400 hover:text-red-300 transition disabled:opacity-50"
+                title="Eliminar reserva"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
             </div>
           </div>
         ))}

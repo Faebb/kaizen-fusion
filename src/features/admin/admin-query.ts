@@ -5,6 +5,7 @@ import {
   createTableService,
   deleteCategoryService,
   deleteMenuItemService,
+  deleteReservationService,
   deleteTableService,
   listCategoriesService,
   listMenuItemsService,
@@ -176,3 +177,15 @@ export const useUpdateOrderStatus = () => {
 // ─── Reservations ────────────────────────────────────────────────────────
 export const useAdminReservations = () =>
   useQuery({ queryKey: adminKey("reservations"), queryFn: listReservationsService });
+
+export const useDeleteReservation = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: deleteReservationService,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: adminKey("reservations") });
+      showSuccessToast("Reserva eliminada");
+    },
+    onError: failure("No se pudo eliminar la reserva"),
+  });
+};
