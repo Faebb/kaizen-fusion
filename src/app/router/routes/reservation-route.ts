@@ -1,9 +1,9 @@
 import { createRoute } from "@tanstack/react-router";
-import { rootRoute } from "@/app";
+import { SlugRoute } from "./slug-route";
 import { ReservationPage } from "@/features";
 
 export const ReservationRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => SlugRoute,
   path: "/",
   component: ReservationPage,
 });

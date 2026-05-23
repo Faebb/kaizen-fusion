@@ -1,11 +1,13 @@
 import { useConfirmation, TableAssignedRing } from "@/features"
 import { Button } from "@/shared"
 import { useNavigate } from "@tanstack/react-router"
+import { useCurrentSlug } from "@/lib"
 
 export const ConfirmationView = () => {
 
     const { reservation } = useConfirmation()
     const navigate = useNavigate()
+    const slug = useCurrentSlug()
 
     if (!reservation) {
         return <p>No hay reserva</p>;
@@ -48,7 +50,7 @@ export const ConfirmationView = () => {
             <div className="w-full max-w-xs">
                 <Button
                     variant="primary"
-                    onClick={() => navigate({ to: "/menu" })}
+                    onClick={() => navigate({ to: "/$slug/menu", params: { slug } })}
                     className="w-full text-lg py-4 rounded-xl 
         shadow-[0_8px_30px_rgba(193,11,45,0.4)]
         hover:scale-[1.02] active:scale-[0.98] transition-all"

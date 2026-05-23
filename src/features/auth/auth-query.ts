@@ -15,7 +15,7 @@ export const useLoginMutation = () => {
     onSuccess: (data) => {
       setAuth({ token: data.token, user: data.user, tenant: data.tenant });
       showSuccessToast("Bienvenido", data.user.name);
-      navigate({ to: "/menu" });
+      navigate({ to: "/dashboard" });
     },
     onError: () => {
       showRemoveToast("Error", "Credenciales inválidas");
@@ -33,7 +33,7 @@ export const useRegisterMutation = () => {
     onSuccess: (data) => {
       setAuth({ token: data.token, user: data.user, tenant: data.tenant });
       showSuccessToast("Restaurante registrado", `Bienvenido ${data.user.name}`);
-      navigate({ to: "/menu" });
+      navigate({ to: "/dashboard" });
     },
     onError: (error: unknown) => {
       const message =

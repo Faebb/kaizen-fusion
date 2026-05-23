@@ -2,11 +2,12 @@ import { useParams, useNavigate } from "@tanstack/react-router";
 import { Button, GuestStepper, Image } from "@/shared";
 import { CartSummaryView, useCartStore, useMenuItem } from "@/features";
 import { useState } from "react";
-import { showSuccessToast } from "@/lib";
+import { showSuccessToast, useCurrentSlug } from "@/lib";
 
 export function MenuDetailView() {
-    const { id } = useParams({ from: "/menu/$id" })
+    const { id } = useParams({ from: "/$slug/menu/$id" })
     const navigate = useNavigate()
+    const slug = useCurrentSlug()
     const { item, isLoading } = useMenuItem(id)
     const [quantity, setQuantity] = useState(1)
 
@@ -27,7 +28,7 @@ export function MenuDetailView() {
 
                         <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
                             <button
-                                onClick={() => navigate({ to: "/menu" })}
+                                onClick={() => navigate({ to: "/$slug/menu", params: { slug } })}
                                 className="text-slate-400 hover:text-white transition text-sm"
                             >
                                 ← Volver

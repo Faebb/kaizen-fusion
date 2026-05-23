@@ -1,9 +1,9 @@
 import { createRoute } from "@tanstack/react-router";
-import { rootRoute } from "@/app";
+import { SlugRoute } from "./slug-route";
 import { MenuPage } from "@/features";
 
 export const MenuRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => SlugRoute,
   path: "/menu",
   component: MenuPage,
 });

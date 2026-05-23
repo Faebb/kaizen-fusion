@@ -21,7 +21,7 @@ export const useAssignTableMutation = () => {
         queryKey: queryKeys.reservation.all,
       });
 
-      navigate({ to: "/confirmation" });
+      navigate({ to: "/$slug/confirmation", params: { slug } });
     },
   });
 };
